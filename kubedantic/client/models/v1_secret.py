@@ -21,7 +21,7 @@ class V1Secret(BaseKubernetesManifestObject[client.V1Secret]):
     data: tp.Optional[tp.Dict[str, str]] = None
     string_data: tp.Optional[tp.Dict[str, tp.Optional[str]]] = Field(None, alias='stringData')
     immutable: tp.Optional[bool] = None
-    type: tp.Literal['Opaque'] = 'Opaque'
+    type: str = 'Opaque'
 
     @field_serializer('string_data')
     def serialize_data(string_data: tp.Optional[tp.Dict[str, tp.Optional[str]]]) -> tp.Optional[str]:
