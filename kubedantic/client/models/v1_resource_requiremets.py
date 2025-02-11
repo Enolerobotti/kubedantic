@@ -8,13 +8,9 @@ from .v1_resource_claim import V1ResourceClaim
 
 
 class ResourcesObject(BaseKubernetesManifestObject):
-    cpu: int
+    cpu: str
     memory: str
     nvidia_gpu: str = Field(..., alias='nvidia.com/gpu')
-
-    @field_serializer('cpu')
-    def serialize_cpu(cpu: int) -> str:
-        return str(cpu)
 
 
 class V1ResourceRequirements(BaseKubernetesManifestObject[client.V1ResourceRequirements]):
