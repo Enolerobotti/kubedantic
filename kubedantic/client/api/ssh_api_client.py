@@ -3,6 +3,10 @@ from kubernetes import client
 from kubedantic.ssh_utils import SshClient
 from kubedantic.client import models
 
+_template="""cat <<EOF | kubectl create -n {namespace} -o json -f -
+{data}
+EOF
+"""
 
 class SShApiClient:
     def __init__(self, client: SshClient):
@@ -14,7 +18,7 @@ class SShApiClient:
 
     def _create(self, namespace: str, body: str, **kwargs) -> str:
         x = body.replace('$', '\$')
-        command = f"""echo "{x}" | kubectl create -n {namespace} -o json -f -"""
+        command = _template.format(data=x, namespace=namespace)
         return self.run_command(command)
 
     def create_namespaced_secret(self, namespace: str, body: models.V1Secret, **kwargs) -> client.V1Secret:
